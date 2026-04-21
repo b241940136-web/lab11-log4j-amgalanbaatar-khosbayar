@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- Console Appender: огноо, түвшин, анги:мөр, мессеж, thread ID -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %c{1}:%L - %msg%n"/>
+        </Console>
+
+        <!--
+            Даалгавар 1.1: ROLL_BY_SIZE - 1 MB тутамд файл солигддог RollingFile appender
+            fileName: идэвхтэй лог файл
+            filePattern: шахагдсан архивын нэр (индекс нэмэгдэж явна)
+        -->
+        <RollingFile name="RollingFile" fileName="logs/app.log"
+                     filePattern="logs/app-%i.log.gz">
+            <PatternLayout pattern="%d{ISO8601} [%t] %-5level %c{1}:%L - %msg%n"/>
+            <Policies>
+                <!-- 1 MB = 1 MB хэмжээнд хүрэхэд файл ороллддог -->
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <!-- Хамгийн ихдээ 5 архив хадгалагдана -->
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Root logger: бүх логийг DEBUG түвшнээс эхлэн барьна -->
+        <Root level="debug">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
